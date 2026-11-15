@@ -101,6 +101,10 @@
     width: calc(100% - 36px);
     padding-top: 34px;
   }
+
+  .footer {
+    padding-bottom: calc(88px + env(safe-area-inset-bottom));
+  }
 }
 
 @media (max-width: 420px) {

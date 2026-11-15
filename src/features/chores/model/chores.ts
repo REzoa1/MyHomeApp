@@ -8,6 +8,11 @@ export interface Chore {
   completionHistory: string[];
   active: boolean;
   demo?: boolean;
+  completionUndo?: {
+    completedAt: string;
+    previousNextDueDate: string;
+    previousLastCompletedAt: string | null;
+  };
 }
 
 const MILLISECONDS_PER_DAY = 86_400_000;
@@ -43,6 +48,11 @@ export function addDays(value: string, days: number): string {
   const date = fromDateKey(value);
   date.setDate(date.getDate() + days);
   return toDateKey(date);
+}
+
+export function startOfWeek(value: string): string {
+  const day = fromDateKey(value).getDay();
+  return addDays(value, -((day + 6) % 7));
 }
 
 export function daysBetween(from: string, to: string): number {
@@ -172,7 +182,18 @@ function isChore(value: unknown): value is Chore {
     Array.isArray(chore.completionHistory) &&
     chore.completionHistory.every(isDateKey) &&
     typeof chore.active === "boolean" &&
-    (chore.demo === undefined || typeof chore.demo === "boolean")
+    (chore.demo === undefined || typeof chore.demo === "boolean") &&
+    (chore.completionUndo === undefined || isCompletionUndo(chore.completionUndo))
+  );
+}
+
+function isCompletionUndo(value: unknown): value is NonNullable<Chore["completionUndo"]> {
+  if (!value || typeof value !== "object") return false;
+  const undo = value as Record<string, unknown>;
+  return (
+    isDateKey(undo.completedAt) &&
+    isDateKey(undo.previousNextDueDate) &&
+    (undo.previousLastCompletedAt === null || isDateKey(undo.previousLastCompletedAt))
   );
 }
 
