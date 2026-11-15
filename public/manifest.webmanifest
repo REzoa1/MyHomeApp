@@ -3,14 +3,14 @@
   "short_name": "Дом",
   "description": "Спокойное планирование бытовых дел.",
   "lang": "ru",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#101210",
   "theme_color": "#101210",
   "icons": [
     {
-      "src": "/pwa-icon.svg",
+      "src": "./pwa-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
