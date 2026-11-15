@@ -10,6 +10,8 @@ export interface Chore {
   demo?: boolean;
 }
 
+const MILLISECONDS_PER_DAY = 86_400_000;
+
 export interface ChoreDraft {
   title: string;
   description: string;
@@ -44,7 +46,9 @@ export function addDays(value: string, days: number): string {
 }
 
 export function daysBetween(from: string, to: string): number {
-  return Math.round((fromDateKey(to).getTime() - fromDateKey(from).getTime()) / 86_400_000);
+  return Math.round(
+    (fromDateKey(to).getTime() - fromDateKey(from).getTime()) / MILLISECONDS_PER_DAY
+  );
 }
 
 export function formatDate(value: string, options?: Intl.DateTimeFormatOptions): string {
